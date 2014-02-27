@@ -1,0 +1,27 @@
+**1. Use keyboard input to get information from the user.
+
+Program uses dialog boxes to record and display relevant information.
+
+**2. Use text file I/O to read and write text files.
+
+Program will read and store information appropriately, needing only filenames to perform this function. User-selected option results in an output file.
+
+**3. Create classes to store data on various types of geographic regions, including cities, countries, and continents. Note that you should create any additional classes (abstract and/or concrete) and/or interfaces you deem necessary to arrive at a good design.
+
+A Region superclass is implemented, with Continent, Country, and City classes to extend it.
+
+**4. Implement both the Comparable and Comparator interfaces to compare one geographic design to another.
+
+Used in Region, with extensions in City to handle city-specific attributes.
+
+**5. Use a List to store, retrieve, and display data related to geographic regions as described below.
+
+ArrayList of Regions is created and manipulated throughout the program. Continent and Country implement Country and City ArrayLists, respectively, to establish geographic hierarchy.
+
+**6. Use the sort() and binarySearch() methods from the Collections class to sort and search for data related to the description below.
+
+Sort methods are given their own class. Binary search implemented for when user requests a specific region.
+
+**Extra:
+
+Interface was overhauled to use intuitive elements whenever possible. Program was streamlined to handle bad input at multiple points.
