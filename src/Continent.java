@@ -10,10 +10,10 @@ public class Continent extends Region
 	/**
 	 * This is the arraylist of countries contained in the coninent
 	 */
-	ArrayList<Country> countries = new ArrayList<Country>();
+	LinkedHashMap<String, Country> countries = new LinkedHashMap<String, Country>();
 
 	/**
-	 * This is the contructor for a Continent object
+	 * This is the constructor for a Continent object
 	 * @param name Name of the Continent
 	 * @param pop Population of the Continent
 	 * @param area Area of the Continent
@@ -31,12 +31,12 @@ public class Continent extends Region
 	 * @param country Country object to be added
 	 * 
 	 */
-	public void addCountry(Country country)
+	public void addCountry(String name, Country country)
 	{
-		countries.add(country);
+		countries.put(name, country);
 	}
 	
-	public ArrayList<Country> getCountries()
+	public LinkedHashMap<String, Country> getCountries()
 	{
 		return countries;
 	}

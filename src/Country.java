@@ -8,10 +8,11 @@ import java.util.*;
 public class Country extends Region
 {
 	/*
-	 * an arraylist of cities, as well as the variables for a country
+	 * a liked hash map of cities, as well as the variables for a country
 	 * object
 	 */
-	ArrayList<City> cities = new ArrayList<City>();
+//	ArrayList<City> cities = new ArrayList<City>();
+	LinkedHashMap<String,City> cities = new LinkedHashMap<String, City>();
 
 	private String continent;
 	
@@ -44,11 +45,12 @@ public class Country extends Region
 
 	/**
 	 * This method will add a city to the city array list
+	 * @param name The name of the city being added
 	 * @param city The city object to be added
 	 */
-	public void addCity(City city)
+	public void addCity(String name, City city)
 	{
-		cities.add(city);
+		cities.put(name.toLowerCase(), city);
 	}
 	
 	public String toString()
