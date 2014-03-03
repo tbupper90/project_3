@@ -22,7 +22,10 @@ How should this data be output?
 	print to the screen
 	print to a file
 		ask for file name
+		ask for binary or .txt
 	search for a region
 		ask for region name
+	Graphical Display
+	
 		
 Do you wish to continue?
