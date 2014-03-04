@@ -4,6 +4,7 @@ What type of geographic data are you interested in?
 	all continents
 	all countries
 	all cities
+	all places of interest
 	all countries in a continent
 		ask for continent
 	all cities within a country
