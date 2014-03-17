@@ -93,6 +93,114 @@ public class City extends Region
 	 */
 	public static class Comparators
 	{
+		public static Comparator<City> LAT = new Comparator<City>()
+		{
+			@Override
+			public int compare(City o1, City o2)
+			{
+				//checks for empty strings
+				if(o2.getElev().equals("") && (o1.getElev().equals("") == false))
+				{
+					return 1; 
+				}
+				else if(o1.getElev().equals("") && (o2.getElev().equals("") == false))
+				{
+					return -1;
+				}
+				
+				else if(o2.getElev().equals("") && o1.getElev().equals(""))
+				{
+					return 0;
+				}
+				
+				//if neither contain empty string, compare the lats
+				if(o1.getLat().compareTo(o2.getLat()) < 0)
+				{
+					return -1;
+				}
+				
+				else if(o1.getLat().compareTo(o2.getLat()) > 0)
+				{
+					return 1;
+				}
+				
+				else return 0;
+			}
+		};
+		
+		public static Comparator<City> LON = new Comparator<City>()
+		{
+			@Override
+			public int compare(City o1, City o2)
+			{
+				//checks for empty strings
+				if(o2.getElev().equals("") && (o1.getElev().equals("") == false))
+				{
+					return 1; 
+				}
+				else if(o1.getElev().equals("") && (o2.getElev().equals("") == false))
+				{
+					return -1;
+				}
+				
+				else if(o2.getElev().equals("") && o1.getElev().equals(""))
+				{
+					return 0;
+				}
+				
+				//if neither object contains an empty string...
+				if(o1.getLon().compareTo(o2.getLon()) < 0)
+				{
+					return -1;
+				}
+				
+				else if(o1.getLon().compareTo(o2.getLon()) > 0)
+				{
+					return 1;
+				}
+				
+				else return 0;
+			}
+		};
+		
+		public static Comparator<City> ELEV = new Comparator<City>()
+		{
+			@Override
+			public int compare(City o1, City o2)
+			{
+				//checks for empty strings
+				if(o2.getElev().equals("") && (o1.getElev().equals("") == false))
+				{
+					return 1; 
+				}
+				else if(o1.getElev().equals("") && (o2.getElev().equals("") == false))
+				{
+					return -1;
+				}
+				
+				else if(o2.getElev().equals("") && o1.getElev().equals(""))
+				{
+					return 0;
+				}
+				
+				
+				//if there are no empty strings...
+				int o1elev = Integer.parseInt(o1.getElev());
+				int o2elev = Integer.parseInt(o2.getElev());
+				
+				if(o2elev < o1elev)
+				{
+					return -1;
+				}
+				
+				else if(o2elev > o2elev)
+				{
+					return 1;
+				}
+				
+				else return 0;
+			}
+		};
 		
 	}
 
