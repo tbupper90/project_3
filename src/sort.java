@@ -50,10 +50,10 @@ public class sort
 		return list;
 	}
 	
-	public static ArrayList<Region> sortTypeOfData(LinkedHashMap<String, Continent> continents, String dataType)
+	public static LinkedHashMap<String, Region> sortTypeOfData(LinkedHashMap<String, Continent> continents, String dataType)
 	{
 		//list that will be returned 
-		ArrayList<Region> newList = new ArrayList<Region>();
+		LinkedHashMap<String, Region> newList = new LinkedHashMap<String, Region>();
 		
 		//String array used to check for countries within continents, and cities within countries.
 		String[] dataTypeArray = dataType.split("_");
@@ -61,22 +61,22 @@ public class sort
 		switch(dataType)
 		{
 		case "All continents": 
-			newList.addAll(continents);
+			newList.putAll(continents);
 			return newList;
 			
 		case "All countries":
-			for(Continent continent : continents)
+			for(String continent : continents.keySet())
 			{
-				newList.addAll(continent.countries);
+				newList.putAll(continents.get(continent).countries);
 			}
 			return newList;
 			
 		case "All cities":
-			for(Continent continent : continents)
+			for(String continent : continents.keySet())
 			{
-				for(Country country : continent.countries)
+				for(String country : continents.get(continent).countries.keySet())
 				{
-					newList.addAll(country.cities);
+					newList.putAll(continents.get(continent).countries.get(country).cities);
 				}
 			}
 			
@@ -87,23 +87,24 @@ public class sort
 		switch(dataTypeArray[1])
 		{
 			case "countrieswithin":
-				for(Continent continent : continents)
+				for(String continent : continents.keySet())
 				{
-					if(continent.getName().equalsIgnoreCase(dataTypeArray[2]))
+					if(continents.get(continent).getName().equalsIgnoreCase(dataTypeArray[2]))
 					{
-						newList.addAll(continent.countries);
+						newList.putAll(continents.get(continent).countries);
 						return newList;
 					}
 				}
 			
 			case "citieswithin":
-				for(Continent continent : continents)
+				for(String continent : continents.keySet())
 				{
-					for(Country country : continent.countries)
+					for(String country : continents.get(continent).countries.keySet())
 					{
-						if(country.getName().equalsIgnoreCase(dataTypeArray[2]))
+						if(continents.get(continent).countries.get(country).getName().
+								equalsIgnoreCase(dataTypeArray[2]))
 						{
-							newList.addAll(country.cities);
+							newList.putAll(continents.get(continent).countries.get(country).cities);
 							return newList;
 						}
 					}
@@ -117,28 +118,56 @@ public class sort
 	}//end method
 	
 	
-	public static ArrayList<Region> performSort(ArrayList<Region> list, String sortMethod)
+	public static ArrayList<Region> toArrayList(LinkedHashMap<String, Region> list)
 	{
 		ArrayList<Region> newList = new ArrayList<Region>();
+		
+		for(String key : list.keySet())
+		{
+			newList.add(list.get(key));
+		}
+		
+		return newList;
+	}
+	
+	public static LinkedHashMap<String,Region> toLHMap(ArrayList<Region> list)
+	{
+		LinkedHashMap<String,Region> newList = new LinkedHashMap<String,Region>();
+		
+		for(Region region : list)
+		{
+			newList.put(region.getName(), region);
+		}
+		
+		return newList;
+	}
+	
+	public static LinkedHashMap<String,Region> performSort(LinkedHashMap<String,Region> list, String sortMethod)
+	{
+		ArrayList<Region> arrayList = toArrayList(list);
+		
+		ArrayList<Region> newList = new ArrayList<Region>();
 		ArrayList<City> cityList = new ArrayList<City>();	
+		
+		
 		
 		switch(sortMethod)
 		{
 		case "Area":
-			newList = sortByArea(list);
-			return newList;
+			newList = sortByArea(arrayList);
+			return toLHMap(newList);
 		
 		case "Population":
-			newList = sortByPopulation(list);
-			return newList;
+			newList = sortByPopulation(arrayList);
+			return toLHMap(newList);
 		
 		case "Lexicographic":
-			newList = sortByLexi(list);
-			return newList;
+			newList = sortByLexi(arrayList);
+			return toLHMap(newList);
 		
 		case "Latitude": 
 			
-		    for(Region city : list)
+		    for(Region city : arrayList)
 			{
 				cityList.add((City) city);
 			}
@@ -149,11 +178,11 @@ public class sort
 			{
 				newList.add(city);
 			}
-			return newList;
+			return toLHMap(newList);
 			
 		case "Longitude":
 			
-		    for(Region city : list)
+		    for(Region city : arrayList)
 			{
 				cityList.add((City) city);
 			}
@@ -164,11 +193,11 @@ public class sort
 			{
 				newList.add(city);
 			}
-			return newList;	
+			return toLHMap(newList);	
 		
 		case "Elevation":
 			
-		    for(Region city : list)
+		    for(Region city : arrayList)
 			{
 				cityList.add((City) city);
 			}
@@ -179,11 +208,11 @@ public class sort
 			{
 				newList.add(city);
 			}
-			return newList;
+			return toLHMap(newList);
 		
 		case "Random":
-		    newList = sortRandomly(list);
-		    return newList;
+		    newList = sortRandomly(arrayList);
+		    return toLHMap(newList);
 		    
 		}
 		
