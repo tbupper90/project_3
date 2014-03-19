@@ -193,7 +193,10 @@ public class Prompt
 	{
 		
 		
-		String [] options = {"Print to Screen","Print to File","Search for Particular Region"};
+		String [] options = {"Print to Screen",
+				"Print to Text File",
+				"Search for Particular Region",
+				"Serialize"};
 		
 		    JRadioButton[] buttons = new JRadioButton[options.length];
 	        ButtonGroup buttonGroup = new ButtonGroup();
@@ -238,7 +241,7 @@ public class Prompt
 			String filename = JOptionPane.showInputDialog(null,
 			        "What is the filename?", "GeoData",
 			        JOptionPane.QUESTION_MESSAGE);
-			fileWriter(list,filename);
+			fileWriter(list,filename,"Text");
 			
 		}
 		else if(buttons[2].isSelected())
@@ -249,6 +252,14 @@ public class Prompt
 			        "GeoData", JOptionPane.QUESTION_MESSAGE);
 			searchRegion(list, region, sortMethod);
 		}
+		else if(buttons[3].isSelected())
+		{
+			String filename = JOptionPane.showInputDialog(null,
+			        "What is the filename?", "GeoData",
+			        JOptionPane.QUESTION_MESSAGE);
+			fileWriter(list,filename,"Binary");
+		}
+			
 
 		return;
 	}
@@ -259,20 +270,30 @@ public class Prompt
 	 * @param filename Name of file to be written
 	 * @throws IOException
 	 */
-	public static void fileWriter (LinkedHashMap<String,Region> list, String filename)
+	public static void fileWriter (LinkedHashMap<String,Region> list, String filename,String fileType)
 	        throws IOException
 	{
-		FileWriter outfile = new FileWriter(filename);
-		BufferedWriter bw = new BufferedWriter(outfile);
-		String line = null;
-		for(String key : list.keySet())
+		switch(fileType)
 		{
-			line = list.get(key).toString();
-			bw.write(line);
-			bw.newLine();
-		}
-		bw.close();
 		
+		
+			case "Text":
+				FileWriter outfile = new FileWriter(filename);
+				BufferedWriter bw = new BufferedWriter(outfile);
+				String line = null;
+				for(String key : list.keySet())
+				{
+					line = list.get(key).toString();
+					bw.write(line);
+					bw.newLine();
+				}
+				bw.close();
+			case "Binary":
+				FileOutputStream fileOutputStream = new FileOutputStream(filename); 
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream); 
+				objectOutputStream.writeObject(list); 
+				objectOutputStream.close();
+		}
 	}
 
 	/**
@@ -338,7 +359,7 @@ public class Prompt
 //		return searchRegion(list, region, sortMethod);
 	}
 	
-
+	
 	/**
 	 * This will determine whether to continue with the program
 	 * @return true if continue, false if not
@@ -352,6 +373,8 @@ public class Prompt
         return (result == JOptionPane.YES_OPTION);
 
 	}
+	
+	
 	
 	
 }

@@ -23,6 +23,7 @@ public class Driver
 	private static String continentsFile;
 	private static String countriesFile;
 	private static String citiesFile;
+	private static String placeOfInterestFile;
 	private static String binaryFile;
 	
 

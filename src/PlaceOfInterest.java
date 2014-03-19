@@ -1,14 +1,22 @@
+import java.io.Serializable;
+import java.util.*;
+
 /**
  * 
  * This class contains information for places of interest.
  *
  */
-public class PlaceOfInterest 
+public class PlaceOfInterest implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5566762757484533693L;
+	
 	private String name;
 	private String area;
 	private String description;
-	private String country;
+	private ArrayList<Country> countries;
 	
 	/**
 	 * This is the constructor for the PlaceOfInterest object.
@@ -17,12 +25,12 @@ public class PlaceOfInterest
 	 * @param description Description of the place
 	 * @param country Country the place belongs to
 	 */
-	public PlaceOfInterest(String name, String area, String description, String country)
+	public PlaceOfInterest(String name, String area, String description, ArrayList<Country> countries)
 	{
 		this.name = name;
 		this.area = area;
 		this.description = description;
-		this.country = country;
+		this.countries = countries;
 	}
 	
 	/**
@@ -52,8 +60,8 @@ public class PlaceOfInterest
 	/**
 	 * @return The country the place belongs to
 	 */
-	public String getCountry()
+	public ArrayList<Country> getCountry()
 	{
-		return country;
+		return countries;
 	}
 }

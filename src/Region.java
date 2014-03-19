@@ -1,8 +1,14 @@
+import java.io.Serializable;
 import java.util.*;
 
 
-abstract class Region 
+abstract class Region implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5959620826424242964L;
+	
 	protected String name;
 	protected String pop;
 	protected String area;
