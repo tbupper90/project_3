@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -31,27 +32,41 @@ public class Driver
 	 * This is the main method
 	 * @param args 
 	 * @throws IOException
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
 		boolean continueTest = true;
 		String dataType;
 		String sortMethod;
 
 		//get correct files
-//		String[] files = Prompt.getFiles();
-//		continentsFile = files[0];
-//		countriesFile = files[1];
-//		citiesFile = files[2];
+		String[] files = Prompt.getFiles();
 		
-		continentsFile=args[0];
-		countriesFile=args[1];
-		citiesFile=args[2];
+		continentsFile = files[0];
+		countriesFile = files[1];
+		citiesFile = files[2];
+		binaryFile = files[3];
 		
-		//read in the files and assign the data contained within
-		readFile(continentsFile);
-		readFile(countriesFile);
-		readFile(citiesFile);
+		if(files[3].equals("") == false)
+		{
+			readBinary(binaryFile);
+			System.out.println(continents);
+		}
+		else
+		{
+			//read in the files and assign the data contained within
+			readTextFile(continentsFile);
+			readTextFile(countriesFile);
+			readTextFile(citiesFile);
+			
+		}
+		
+
+		
+//		continentsFile=args[0];
+//		countriesFile=args[1];
+//		citiesFile=args[2];
 		
 		do{
 		dataType = Prompt.getDataType();
@@ -72,13 +87,20 @@ public class Driver
 		System.exit(0);
 	}
 	
+	private static void readBinary(String file) throws IOException, ClassNotFoundException
+	{
+		FileInputStream fileInputStream = new FileInputStream(file); 
+		ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream); 
+		continents = (LinkedHashMap<String,Continent>) objectInputStream.readObject(); 
+		objectInputStream.close(); 
+	}
 
 	/**
 	 * This method reads in, parses, and assigns variables
 	 * @param file File to be read in 
 	 * @throws IOException
 	 */
-	private static void readFile(String file) throws IOException
+	private static void readTextFile(String file) throws IOException
 	{
 		//opens and reads the file 
 		FileReader fr = new FileReader(file);
@@ -189,5 +211,9 @@ public class Driver
 		}
 		
 	}//end Assign
-
+	
+	public static LinkedHashMap<String,Continent> getContinents()
+	{
+		return continents;
+	}
 }//end class

@@ -21,7 +21,7 @@ public class Prompt
 	 */
 	public static String[] getFiles()
 	{
-	    String[] fieldTitles = {"Continents", "Countries", "Cities"};
+	    String[] fieldTitles = {"Continents", "Countries", "Cities","Single Binary"};
 	    JTextField[] textFields = new JTextField[fieldTitles.length];
         String[] fileNames = new String[fieldTitles.length];
 
@@ -29,7 +29,7 @@ public class Prompt
         int result;
 	    
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3,1));
+        panel.setLayout(new GridLayout(4,1));
 
         for (int i = 0; i < fieldTitles.length; i++)
         {
@@ -46,19 +46,35 @@ public class Prompt
             {
                 System.exit(0);
             }
-
-            for (int i = 0; i < fieldTitles.length; i++)
+            
+            //gets the file names
+            for(int j = 0; j < fieldTitles.length; j++)
             {
-                fileNames[i] = textFields[i].getText();
-                // Display an error message when a file is not found
-                if (new File(fileNames[i]).exists() == false) {
-                    JOptionPane.showMessageDialog(null, fieldTitles[i] +
-                            " file " + "\"" + fileNames[i] + "\"" +
-                            " not found", "GeoData",
-                            JOptionPane.ERROR_MESSAGE);
-                    fileError = true;
+            	fileNames[j] = textFields[j].getText();
+            }
+            
+            //checks to see if there is a valid binary file
+            for (int i = 0; i < fieldTitles.length - 1; i++)
+            {
+//            	fileNames[i] = textFields[i].getText();
+                
+                if (new File(fileNames[3]).exists() == true)
+                {
+                	break;
+                	 
                 }
-            }            
+                // Display an error message when a file is not found
+                if (new File(fileNames[i]).exists() == false) 
+                {
+                   JOptionPane.showMessageDialog(null, fieldTitles[i] +
+                           " file " + "\"" + fileNames[i] + "\"" +
+                           " not found", "GeoData",
+                           JOptionPane.ERROR_MESSAGE);
+                   fileError = true;
+                }
+            }        
+            
+            
         } while (fileError);
         
         return fileNames;		
@@ -196,7 +212,8 @@ public class Prompt
 		String [] options = {"Print to Screen",
 				"Print to Text File",
 				"Search for Particular Region",
-				"Serialize"};
+				"Serialize All Data" +
+				""};
 		
 		    JRadioButton[] buttons = new JRadioButton[options.length];
 	        ButtonGroup buttonGroup = new ButtonGroup();
@@ -252,6 +269,7 @@ public class Prompt
 			        "GeoData", JOptionPane.QUESTION_MESSAGE);
 			searchRegion(list, region, sortMethod);
 		}
+		
 		else if(buttons[3].isSelected())
 		{
 			String filename = JOptionPane.showInputDialog(null,
@@ -268,6 +286,7 @@ public class Prompt
 	 * This writes the information to a file determined by the User
 	 * @param list List Region objects are contained in	
 	 * @param filename Name of file to be written
+	 * @param fileType	Type of file to be written (Text or Binary)
 	 * @throws IOException
 	 */
 	public static void fileWriter (LinkedHashMap<String,Region> list, String filename,String fileType)
@@ -291,7 +310,7 @@ public class Prompt
 			case "Binary":
 				FileOutputStream fileOutputStream = new FileOutputStream(filename); 
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream); 
-				objectOutputStream.writeObject(list); 
+				objectOutputStream.writeObject(Driver.getContinents()); 
 				objectOutputStream.close();
 		}
 	}
