@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import java.io.*;
 
+import junit.framework.Test;
+
 
 /**
  * THis class will get the files as well as user input
@@ -186,7 +188,7 @@ public class Prompt
 	 * @param sortMethod Way the list was sorted
 	 * @throws IOException
 	 */
-	public static void getOutputPreference(ArrayList<Region> list,
+	public static void getOutputPreference(LinkedHashMap<String,Region> list,
 	        String sortMethod) throws IOException
 	{
 		
@@ -220,9 +222,9 @@ public class Prompt
 		if(buttons[0].isSelected())
 		{
 			String lists = "";
-			for(int i = 0; i <list.size(); i++)
+			for(String key : list.keySet())
 			{
-				lists = lists.concat(list.get(i).toString() + "\n");
+				lists = lists.concat(list.get(key).toString() + "\n");
 			}
 			lists = lists.substring(0, lists.length()-1);
 			JScrollPane scrollPane = new JScrollPane(new JTextArea(lists));
@@ -257,15 +259,15 @@ public class Prompt
 	 * @param filename Name of file to be written
 	 * @throws IOException
 	 */
-	public static void fileWriter (ArrayList<Region> list, String filename)
+	public static void fileWriter (LinkedHashMap<String,Region> list, String filename)
 	        throws IOException
 	{
 		FileWriter outfile = new FileWriter(filename);
 		BufferedWriter bw = new BufferedWriter(outfile);
 		String line = null;
-		for(int i = 0; i < list.size()-1; i++)
+		for(String key : list.keySet())
 		{
-			line = list.get(i).toString();
+			line = list.get(key).toString();
 			bw.write(line);
 			bw.newLine();
 		}
@@ -281,43 +283,59 @@ public class Prompt
 	 * @return 
 	 */
 	
-	public static String searchRegion(ArrayList<Region> list, String region,
+	public static String searchRegion(LinkedHashMap<String,Region> list, String region,
 	        String sortMethod)
 	{
 		
-		String check = null;
-		if(sortMethod.equals("Lexicographic"))
-		{	
-			int i = Collections.binarySearch(list, new Country(region, null, null, null), 
-					Region.Comparators.NAME);
-			
-			String info = list.get(i).getName() + ", " + 
-					list.get(i).getArea() + ", " +
-			        list.get(i).getPop();
+		
+		if(list.containsKey(region))
+		{
+			String info = list.get(region).getName() + ",\n" + 
+			"Area: " + list.get(region).getArea() + ",\n" +
+	        "Populaion: " +list.get(region).getPop();
 			JOptionPane.showMessageDialog(null, info);
-			return list.get(i).toString().toLowerCase();
+			return list.get(region).toString().toLowerCase();
 		}
 		
 		
-		for(int i = 0; i <list.size()-1;i++)
-			{
-			check = list.get(i).toString().toLowerCase();
-			
-			if(check.contains(region.toLowerCase()))
-				{
-					String info = check.toUpperCase() + ", " +
-					        list.get(i).getArea() + ", " +
-					        list.get(i).getPop();
-					JOptionPane.showMessageDialog(null, info);
-					return check;
-				}
-			}
-		
-		
 		region = JOptionPane.showInputDialog(null,
-		        "Invalid Region name, please enter a valid Region:", "GeoData",
-		        JOptionPane.QUESTION_MESSAGE);
+        "Invalid Region name, please enter a valid Region:", "GeoData",
+        JOptionPane.QUESTION_MESSAGE);
 		return searchRegion(list, region, sortMethod);
+		
+//		String check = null;
+//		if(sortMethod.equals("Lexicographic"))
+//		{	
+//			int i = Collections.binarySearch(list, new Country(region, null, null, null), 
+//					Region.Comparators.NAME);
+//			
+//			String info = list.get(i).getName() + ", " + 
+//					list.get(i).getArea() + ", " +
+//			        list.get(i).getPop();
+//			JOptionPane.showMessageDialog(null, info);
+//			return list.get(i).toString().toLowerCase();
+//		}
+//		
+//		
+//		for(int i = 0; i <list.size()-1;i++)
+//			{
+//			check = list.get(i).toString().toLowerCase();
+//			
+//			if(check.contains(region.toLowerCase()))
+//				{
+//					String info = check.toUpperCase() + ", " +
+//					        list.get(i).getArea() + ", " +
+//					        list.get(i).getPop();
+//					JOptionPane.showMessageDialog(null, info);
+//					return check;
+//				}
+//			}
+//		
+//		
+//		region = JOptionPane.showInputDialog(null,
+//		        "Invalid Region name, please enter a valid Region:", "GeoData",
+//		        JOptionPane.QUESTION_MESSAGE);
+//		return searchRegion(list, region, sortMethod);
 	}
 	
 

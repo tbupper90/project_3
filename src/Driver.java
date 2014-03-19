@@ -54,12 +54,13 @@ public class Driver
 		
 		do{
 		dataType = Prompt.getDataType();
-//		list = sort.sortTypeOfData(continents, dataType);
-//		
-//		sortMethod = Prompt.getSortMethod(dataType);
-//		list = sort.performSort(list, sortMethod);
-//
-//		Prompt.getOutputPreference(list, sortMethod);
+		list = sort.sortTypeOfData(continents, dataType);
+		
+		sortMethod = Prompt.getSortMethod(dataType);
+		list = sort.performSort(list, sortMethod);
+		
+//		System.out.println(list);
+		Prompt.getOutputPreference(list, sortMethod);
 		
 		continueTest = Prompt.getContinue();
 		
