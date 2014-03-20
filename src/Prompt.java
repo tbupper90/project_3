@@ -157,6 +157,11 @@ public class Prompt
                                         "Longitude", "Elevation",
                                         "Lexicographic", "Random"};
         }
+        else if(dataType.contains("places of interest"))
+        {
+        	sortChoices = new String[] {"Area", "Lexicographic",
+            	"Random"};
+        }
         else
         {
             sortChoices = new String[] {"Area", "Population", "Lexicographic",
