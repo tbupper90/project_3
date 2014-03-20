@@ -58,6 +58,7 @@ public class Prompt
             {
 //            	fileNames[i] = textFields[i].getText();
                 
+            	//If there is a valid binary file, don't check for other files
                 if (new File(fileNames[3]).exists() == true)
                 {
                 	break;
@@ -87,7 +88,7 @@ public class Prompt
 	  */
 	public static String getDataType()
 	{
-        String[] dataChoices = {"All continents", "All countries", "All cities",
+        String[] dataChoices = {"All continents", "All countries", "All cities", "All places of interest",
                 "All countries within a continent",
                 "All cities within a country"};
         // Create radio buttons, a group in which to tie them together,
@@ -123,14 +124,14 @@ public class Prompt
         }
         
         // Override choices for countries and cities within areas
-        if (buttons[3].isSelected())
+        if (buttons[4].isSelected())
         {
             result = "_countrieswithin_" + JOptionPane.showInputDialog(null,
                     "Which continent?", "GeoData",
                     JOptionPane.QUESTION_MESSAGE);
             // Add while loop later to confirm valid entry
         }
-        else if (buttons[4].isSelected())
+        else if (buttons[5].isSelected())
         {
             result = "_citieswithin_" + JOptionPane.showInputDialog(null,
                     "Which country?", "GeoData",

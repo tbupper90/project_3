@@ -24,7 +24,7 @@ public class Driver
 	private static String continentsFile;
 	private static String countriesFile;
 	private static String citiesFile;
-	private static String placeOfInterestFile;
+	private static String placesFile;
 	private static String binaryFile;
 	
 
@@ -41,35 +41,41 @@ public class Driver
 		String sortMethod;
 
 		//get correct files
-		String[] files = Prompt.getFiles();
-		
-		continentsFile = files[0];
-		countriesFile = files[1];
-		citiesFile = files[2];
-		binaryFile = files[3];
-		
-		if(files[3].equals("") == false)
-		{
-			readBinary(binaryFile);
-			System.out.println(continents);
-		}
-		else
-		{
-			//read in the files and assign the data contained within
-			readTextFile(continentsFile);
-			readTextFile(countriesFile);
-			readTextFile(citiesFile);
-			
-		}
+//		String[] files = Prompt.getFiles();
+//		
+//		continentsFile = files[0];
+//		countriesFile = files[1];
+//		citiesFile = files[2];
+//		binaryFile = files[3];
+//		
+//		if(files[3].equals("") == false)
+//		{
+//			readBinary(binaryFile);
+//			System.out.println(continents);
+//		}
+//		else
+//		{
+//			//read in the files and assign the data contained within
+//			readTextFile(continentsFile);
+//			readTextFile(countriesFile);
+//			readTextFile(citiesFile);
+//			
+//		}
 		
 
 		
-//		continentsFile=args[0];
-//		countriesFile=args[1];
-//		citiesFile=args[2];
+		continentsFile=args[0];
+		countriesFile=args[1];
+		citiesFile=args[2];
+		placesFile=args[3];
+		readTextFile(continentsFile);
+		readTextFile(countriesFile);
+		readTextFile(citiesFile);
+		readTextFile(placesFile);
 		
 		do{
 		dataType = Prompt.getDataType();
+		System.out.println(dataType);
 		list = sort.sortTypeOfData(continents, dataType);
 		
 		sortMethod = Prompt.getSortMethod(dataType);
@@ -207,6 +213,32 @@ public class Driver
 					}//end country for
 				}//end continent for
 			}//end else
+			
+		}
+		
+		else if(file.equals(placesFile))
+		{
+			LinkedHashMap<String,String> countries = new LinkedHashMap<String,String>();
+			PlaceOfInterest place;
+			for(int i = 3; i < array.length; i++)
+			{
+				countries.put(array[i],array[i]);
+			}
+			
+			place = new PlaceOfInterest(array[0], array[1],array[2],countries);
+			
+			for(int i = 3; i < array.length; i++)
+			{			
+				for(String continent : continents.keySet())
+				{
+					if(continents.get(continent).countries.containsKey(array[i]))
+					{
+						continents.get(continent).countries.get(array[i]).places.put(place.getName(), place);
+						System.out.println(place + " added to " + continents.get(continent).countries.get(array[i]));
+					}//end if
+				}//end for
+			}//end for
+			
 			
 		}
 		

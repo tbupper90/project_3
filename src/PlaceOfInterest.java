@@ -1,4 +1,3 @@
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -6,17 +5,16 @@ import java.util.*;
  * This class contains information for places of interest.
  *
  */
-public class PlaceOfInterest implements Serializable
+public class PlaceOfInterest extends Region
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5566762757484533693L;
 	
-	private String name;
-	private String area;
+
 	private String description;
-	private ArrayList<Country> countries;
+	private LinkedHashMap<String,String> countries;
 	
 	/**
 	 * This is the constructor for the PlaceOfInterest object.
@@ -25,7 +23,8 @@ public class PlaceOfInterest implements Serializable
 	 * @param description Description of the place
 	 * @param country Country the place belongs to
 	 */
-	public PlaceOfInterest(String name, String area, String description, ArrayList<Country> countries)
+	public PlaceOfInterest(String name, String area, 
+			String description, LinkedHashMap<String, String> countries)
 	{
 		this.name = name;
 		this.area = area;
@@ -60,8 +59,13 @@ public class PlaceOfInterest implements Serializable
 	/**
 	 * @return The country the place belongs to
 	 */
-	public ArrayList<Country> getCountry()
+	public LinkedHashMap<String, String> getCountry()
 	{
 		return countries;
+	}
+	
+	public String toString()
+	{
+		return name;
 	}
 }

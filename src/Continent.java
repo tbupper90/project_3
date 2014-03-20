@@ -8,6 +8,10 @@ public class Continent extends Region
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4924143675857621533L;
+	/**
 	 * This is the arraylist of countries contained in the coninent
 	 */
 	LinkedHashMap<String, Country> countries = new LinkedHashMap<String, Country>();

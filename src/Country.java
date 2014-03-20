@@ -7,12 +7,18 @@ import java.util.*;
  */
 public class Country extends Region
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2851503159815089632L;
+
 	/*
 	 * a liked hash map of cities, as well as the variables for a country
 	 * object
 	 */
 //	ArrayList<City> cities = new ArrayList<City>();
 	LinkedHashMap<String,City> cities = new LinkedHashMap<String, City>();
+	LinkedHashMap<String,PlaceOfInterest> places = new LinkedHashMap<String,PlaceOfInterest>();
 
 	private String continent;
 	
@@ -20,7 +26,7 @@ public class Country extends Region
 	 * creates a Country object
 	 */
 	/**
-	 * This is the contructor for the Country object
+	 * This is the constructor for the Country object
 	 * @param name Name of the country
 	 * @param pop Population of the country
 	 * @param area Area of the country
