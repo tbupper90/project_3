@@ -256,9 +256,9 @@ public class Prompt
         continueDialog.setVisible(true);
 		
 		
-		if(buttons[0].isSelected())
+		if(buttons[0].isSelected()) // Print to Screen
 		{
-			String lists = "";
+		    String lists = "";
 			for(String key : list.keySet())
 			{
 				lists = lists.concat(list.get(key).toString() + "\n");
@@ -269,7 +269,7 @@ public class Prompt
 			JOptionPane.showMessageDialog(null, scrollPane, "GeoGrapher",
 			        JOptionPane.INFORMATION_MESSAGE);
 		}
-		else if(buttons[1].isSelected())
+		else if(buttons[1].isSelected()) // Print to Text File
 		{
 			
 			String filename = JOptionPane.showInputDialog(null,
@@ -278,7 +278,7 @@ public class Prompt
 			fileWriter(list,filename,"Text");
 			
 		}
-		else if(buttons[2].isSelected())
+		else if(buttons[2].isSelected()) // Search for Particular Region
 		{
 			
 			String region = JOptionPane.showInputDialog(null,
@@ -287,7 +287,7 @@ public class Prompt
 			searchRegion(list, region, sortMethod);
 		}
 		
-		else if(buttons[3].isSelected())
+		else if(buttons[3].isSelected()) // Serialize All Data
 		{
 			String filename = JOptionPane.showInputDialog(null,
 			        "What is the filename?", "GeoGrapher",
@@ -295,8 +295,17 @@ public class Prompt
 			fileWriter(list,filename,"Binary");
 		}
 		
-		else if (buttons[4].isSelected())
+		else if (buttons[4].isSelected()) // Graphical Display
 		{
+		    String[] names = new String[list.size()];
+		    // Can't iterate through HashMaps by index number, so...
+		    int i = 0;
+		    for (String key: list.keySet()) {
+		        names[i] = list.get(key).toString();
+		        i++;
+		    }
+		    long[] data = new long[list.size()];
+		    
 		    if (sortMethod == "Latitude" || sortMethod == "Longitude")
 		    {
 		        // Since Lat and Lon only apply to cities,
@@ -305,17 +314,27 @@ public class Prompt
 		    }
 		    else if (sortMethod == "Population")
 		    {
-		        ShowGraphic.makeBarGraph(list, sortMethod);
+                i = 0;
+                for (String key: list.keySet()) {
+                    data[i] = Long.parseLong(list.get(key).getPop());
+                    i++;
+                }
+		        ShowGraphic.makeBarGraph(names, data);
 		    }
-		    else
+		    else if (sortMethod == "Area")
 		    {
+	            i = 0;
+	            for (String key: list.keySet()) {
+	                data[i] = Long.parseLong(list.get(key).getArea());
+	                i++;
+	            }
 		        if (dataType.contains("within"))
 		        {
-		            ShowGraphic.segmentGraph(list, sortMethod);
+		            ShowGraphic.segmentGraph(names, data);
 		        }
 		        else
 		        {
-		            ShowGraphic.makeBarGraph(list, sortMethod);
+		            ShowGraphic.makeBarGraph(names, data);
 		        }
 		    }
 		}
