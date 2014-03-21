@@ -211,38 +211,49 @@ public class Prompt
 	 * @throws IOException
 	 */
 	public static void getOutputPreference(LinkedHashMap<String,Region> list,
-	        String sortMethod) throws IOException
+	        String dataType, String sortMethod) throws IOException
 	{
+		String[] options;
 		
+		if (sortMethod == "Area" || sortMethod == "Population" ||
+		    sortMethod == "Latitude" || sortMethod == "Logitude")
+		{
+		    options = new String[] {"Print to Screen",
+                    "Print to Text File",
+                    "Search for Particular Region",
+                    "Serialize All Data",
+                    "Graphical Display"};	    
+		}
+		else
+		{
+    	    options = new String[] {"Print to Screen",
+    				"Print to Text File",
+    				"Search for Particular Region",
+    				"Serialize All Data"};
+		}
 		
-		String [] options = {"Print to Screen",
-				"Print to Text File",
-				"Search for Particular Region",
-				"Serialize All Data" +
-				""};
-		
-		    JRadioButton[] buttons = new JRadioButton[options.length];
-	        ButtonGroup buttonGroup = new ButtonGroup();
-	        JPanel panel = new JPanel();
-	        panel.setLayout(new GridLayout(options.length,1));
-	        // Construct each button, add it to the group, and add it to the panel
-	        for (int i = 0; i < options.length; i++)
-	        {
-	            buttons[i] = new JRadioButton(options[i]);
-	            buttonGroup.add(buttons[i]);
-	            panel.add(buttons[i]);
-	        }
-	        buttons[0].setSelected(true);
-	        
-	        // Create a "JOptionPane" on which to put the panel
-	        JOptionPane optionPane = new JOptionPane();
-	        optionPane.setMessage("What would you like to do?:");
-	        optionPane.setMessageType(JOptionPane.QUESTION_MESSAGE);
-	        optionPane.add(panel, 1);
-	        // Create a JDialog on which to display the JOptionPane, with panel 
-	        JDialog continueDialog = optionPane.createDialog(null,
-	                "GeoData");
-	        continueDialog.setVisible(true);
+	    JRadioButton[] buttons = new JRadioButton[options.length];
+        ButtonGroup buttonGroup = new ButtonGroup();
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(options.length,1));
+        // Construct each button, add it to the group, and add it to the panel
+        for (int i = 0; i < options.length; i++)
+        {
+            buttons[i] = new JRadioButton(options[i]);
+            buttonGroup.add(buttons[i]);
+            panel.add(buttons[i]);
+        }
+        buttons[0].setSelected(true);
+        
+        // Create a "JOptionPane" on which to put the panel
+        JOptionPane optionPane = new JOptionPane();
+        optionPane.setMessage("What would you like to do?:");
+        optionPane.setMessageType(JOptionPane.QUESTION_MESSAGE);
+        optionPane.add(panel, 1);
+        // Create a JDialog on which to display the JOptionPane, with panel 
+        JDialog continueDialog = optionPane.createDialog(null,
+                "GeoData");
+        continueDialog.setVisible(true);
 		
 		
 		if(buttons[0].isSelected())
@@ -283,7 +294,31 @@ public class Prompt
 			        JOptionPane.QUESTION_MESSAGE);
 			fileWriter(list,filename,"Binary");
 		}
-			
+		
+		else if (buttons[4].isSelected())
+		{
+		    if (sortMethod == "Latitude" || sortMethod == "Longitude")
+		    {
+		        // Since Lat and Lon only apply to cities,
+		        // there's no need to check dataType
+		        ShowGraphic.makeWorldMap(list);
+		    }
+		    else if (sortMethod == "Population")
+		    {
+		        ShowGraphic.makeBarGraph(list, sortMethod);
+		    }
+		    else
+		    {
+		        if (dataType.contains("within"))
+		        {
+		            ShowGraphic.segmentGraph(list, sortMethod);
+		        }
+		        else
+		        {
+		            ShowGraphic.makeBarGraph(list, sortMethod);
+		        }
+		    }
+		}
 
 		return;
 	}

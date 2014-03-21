@@ -78,18 +78,18 @@ public class sort
 				{
 					newList.putAll(continents.get(continent).countries.get(country).cities);
 				}
-			}	
-			case "All places of interest":
-			{
-				for(String continent : continents.keySet())
-				{
-					for(String country : continents.get(continent).countries.keySet())
-					{
-						newList.putAll(continents.get(continent).countries.get(country).places);
-					}
-				}
 			}
 			return newList;
+    		
+		case "All places of interest":    		
+			for(String continent : continents.keySet())
+			{
+				for(String country : continents.get(continent).countries.keySet())
+				{
+					newList.putAll(continents.get(continent).countries.get(country).places);
+				}
+			}
+    		return newList;
 		}
 		//had to make a different switch for the countries within and cities within. Will look at revising
 		switch(dataTypeArray[1])

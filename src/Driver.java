@@ -74,18 +74,17 @@ public class Driver
 		readTextFile(placesFile);
 		
 		do{
-		dataType = Prompt.getDataType();
-		System.out.println(dataType);
-		list = sort.sortTypeOfData(continents, dataType);
-		
-		sortMethod = Prompt.getSortMethod(dataType);
-		list = sort.performSort(list, sortMethod);
-		
-//		System.out.println(list);
-		Prompt.getOutputPreference(list, sortMethod);
-		
-		continueTest = Prompt.getContinue();
-		
+    		dataType = Prompt.getDataType();
+    		System.out.println(dataType);
+    		list = sort.sortTypeOfData(continents, dataType);
+    		
+    		sortMethod = Prompt.getSortMethod(dataType);
+    		list = sort.performSort(list, sortMethod);
+    		
+//    		System.out.println(list);
+    		Prompt.getOutputPreference(list, dataType, sortMethod);
+    		
+    		continueTest = Prompt.getContinue();    		
 		}while(continueTest);
 		
 		JOptionPane.showMessageDialog(null, "Thank you for using GeoData!",
