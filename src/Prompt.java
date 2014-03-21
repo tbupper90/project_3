@@ -69,7 +69,7 @@ public class Prompt
                 {
                    JOptionPane.showMessageDialog(null, fieldTitles[i] +
                            " file " + "\"" + fileNames[i] + "\"" +
-                           " not found", "GeoData",
+                           " not found", "GeoGrapher",
                            JOptionPane.ERROR_MESSAGE);
                    fileError = true;
                 }
@@ -113,7 +113,7 @@ public class Prompt
         optionPane.add(panel, 1);
         // Create a JDialog on which to display the JOptionPane, with panel 
         JDialog continueDialog = optionPane.createDialog(null,
-                "GeoData");
+                "GeoGrapher");
         continueDialog.setVisible(true);
 
         // Set the return String equal to the choice made
@@ -127,14 +127,14 @@ public class Prompt
         if (buttons[4].isSelected())
         {
             result = "_countrieswithin_" + JOptionPane.showInputDialog(null,
-                    "Which continent?", "GeoData",
+                    "Which continent?", "GeoGrapher",
                     JOptionPane.QUESTION_MESSAGE);
             // Add while loop later to confirm valid entry
         }
         else if (buttons[5].isSelected())
         {
             result = "_citieswithin_" + JOptionPane.showInputDialog(null,
-                    "Which country?", "GeoData",
+                    "Which country?", "GeoGrapher",
                     JOptionPane.QUESTION_MESSAGE);          
             // Add while loop later to confirm valid entry
         }
@@ -190,7 +190,7 @@ public class Prompt
         optionPane.add(panel, 1);
         // Create a JDialog on which to display the JOptionPane, with panel 
         JDialog continueDialog = optionPane.createDialog(null,
-                "GeoData");
+                "GeoGrapher");
         continueDialog.setVisible(true);
 
         // Set the return String equal to the choice made
@@ -252,7 +252,7 @@ public class Prompt
         optionPane.add(panel, 1);
         // Create a JDialog on which to display the JOptionPane, with panel 
         JDialog continueDialog = optionPane.createDialog(null,
-                "GeoData");
+                "GeoGrapher");
         continueDialog.setVisible(true);
 		
 		
@@ -266,14 +266,14 @@ public class Prompt
 			lists = lists.substring(0, lists.length()-1);
 			JScrollPane scrollPane = new JScrollPane(new JTextArea(lists));
 			scrollPane.setPreferredSize(new Dimension(250,100));
-			JOptionPane.showMessageDialog(null, scrollPane, "GeoData",
+			JOptionPane.showMessageDialog(null, scrollPane, "GeoGrapher",
 			        JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if(buttons[1].isSelected())
 		{
 			
 			String filename = JOptionPane.showInputDialog(null,
-			        "What is the filename?", "GeoData",
+			        "What is the filename?", "GeoGrapher",
 			        JOptionPane.QUESTION_MESSAGE);
 			fileWriter(list,filename,"Text");
 			
@@ -283,14 +283,14 @@ public class Prompt
 			
 			String region = JOptionPane.showInputDialog(null,
 			        "What region would you like to know more about?",
-			        "GeoData", JOptionPane.QUESTION_MESSAGE);
+			        "GeoGrapher", JOptionPane.QUESTION_MESSAGE);
 			searchRegion(list, region, sortMethod);
 		}
 		
 		else if(buttons[3].isSelected())
 		{
 			String filename = JOptionPane.showInputDialog(null,
-			        "What is the filename?", "GeoData",
+			        "What is the filename?", "GeoGrapher",
 			        JOptionPane.QUESTION_MESSAGE);
 			fileWriter(list,filename,"Binary");
 		}
@@ -380,7 +380,7 @@ public class Prompt
 		
 		
 		region = JOptionPane.showInputDialog(null,
-        "Invalid Region name, please enter a valid Region:", "GeoData",
+        "Invalid Region name, please enter a valid Region:", "GeoGrapher",
         JOptionPane.QUESTION_MESSAGE);
 		return searchRegion(list, region, sortMethod);
 		
@@ -427,7 +427,7 @@ public class Prompt
 	public static boolean getContinue()
 	{
         int result = JOptionPane.showConfirmDialog(null,
-                "Would you like to get more information?", "GeoData", 
+                "Would you like to get more information?", "GeoGrapher", 
                 JOptionPane.YES_NO_OPTION); 
         
         return (result == JOptionPane.YES_OPTION);

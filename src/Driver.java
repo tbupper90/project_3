@@ -87,8 +87,8 @@ public class Driver
     		continueTest = Prompt.getContinue();    		
 		}while(continueTest);
 		
-		JOptionPane.showMessageDialog(null, "Thank you for using GeoData!",
-		        "GeoData", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Thank you for using GeoGrapher!",
+		        "GeoGrapher", JOptionPane.INFORMATION_MESSAGE);
 		System.exit(0);
 	}
 	
