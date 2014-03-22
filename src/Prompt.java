@@ -330,7 +330,7 @@ public class Prompt
 	            }
 		        if (dataType.contains("within"))
 		        {
-		            ShowGraphic.segmentGraph(names, data);
+		            ShowGraphic.makeSegmentGraph(names, data);
 		        }
 		        else
 		        {

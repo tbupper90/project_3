@@ -47,7 +47,6 @@ public class ShowGraphic
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                //barWidth = getWidth() / entries + 1;
                 for (int i = 0; i < entries; i++) {
                     barLength[i] = (int)(barData[i] / (double)barData[0]
                                          * getHeight() * 0.9);
@@ -55,7 +54,7 @@ public class ShowGraphic
                     g.fillRect(i * barWidth,                // x coordinate
                             getHeight() - barLength[i] - 5, // y coordinate
                             barWidth,                       // width
-                            barLength[i]);              // height
+                            barLength[i]);                  // height
                 }
                 // Separator bar
                 g.setColor(Color.BLACK);
@@ -84,9 +83,59 @@ public class ShowGraphic
      * @param list The list with information to display
      * @param sortMethod How the information should be sorted
      */
-    public static void segmentGraph(String[] names, long[] data)
+    public static void makeSegmentGraph(String[] names, long[] data)
     {
-        System.out.println("Segment Graph!");
+        final int entries = names.length;
+        final String[] segNames = names;
+        final long[] segData = data;
+        
+        final int[] segLength = new int[entries];
+        final int[] segmentY = new int[entries];
+        int segStep;
+        segStep = 0;
+        for (int i = entries - 1; i >= 0; i--)
+        {
+            segLength[i] = (int)Math.pow(segData[i] / (double)segData[entries - 1] * 3200000,
+                    1.0/ 5);
+            segmentY[i] = segStep;
+            segStep += segLength[i];
+        }
+
+        JDialog segDialog = new JDialog();
+        segDialog.setSize(400, 600);
+        segDialog.setLocationRelativeTo(null);
+        segDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        
+        JPanel segPanel = new JPanel()
+        {
+            Color[] colors = {Color.DARK_GRAY, Color.LIGHT_GRAY};
+            
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                for (int i = entries - 1; i >= 0; i--) {
+                    System.out.println(segmentY[i]);
+                    g.setColor(colors[i % colors.length]);
+                    g.fillRect(125, segmentY[i], 50, segLength[i]);
+                    g.drawString(String.valueOf(segData[i]),
+                            0, segmentY[i] + segLength[i] / 2);
+                    g.drawString(segNames[i],
+                            250, segmentY[i] + segLength[i] / 2);
+                }
+            }
+        };
+        segPanel.setPreferredSize(new Dimension(300, segStep));
+        
+        
+        JScrollPane segScrollPane = new JScrollPane();
+        segScrollPane.setViewportView(segPanel);
+        
+        segDialog.add(segScrollPane);
+        
+        //segDialog.add(segPanel);
+        segDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+        
+        segDialog.setVisible(true);
     }
     /**
      * Displays a map with requested information.
