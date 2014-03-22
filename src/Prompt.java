@@ -321,6 +321,7 @@ public class Prompt
 		            System.out.println(key);
 		            lonLat[i][0] = ((City)list.get(key)).getLon(); // "x"
                     lonLat[i][1] = ((City)list.get(key)).getLat(); // "y"
+                    i++;
 		        }
 		        ShowGraphic.makeWorldMap(names, lonLat);
 		    }
