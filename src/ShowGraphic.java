@@ -186,15 +186,15 @@ public class ShowGraphic
 	    for (int i = 0; i < numPlot; i++) {
 	        temp = (int)Float.parseFloat(lonLat[i][0].substring(1));
 	        if (lonLat[i][0].contains("E")) {
-	            temp = (260 + temp) % 359;
+	            temp = (180 + temp) % 359;
 	        } else if (lonLat[i][0].contains("W")) {
-	            temp = (260 - temp) % 359;
+	            temp = (180 - temp) % 359;
 	        }
 	        mapPlots[i][0] = temp;
-	        mapPlots[i][1] = 15 * i;
+	        mapPlots[i][1] = 15 * (i+1);
 	    }
 	    
-        final BufferedImage img = ImageIO.read(new File("World map.png"));
+        final BufferedImage img = ImageIO.read(new File("Worldmap.jpg"));
 
         JDialog mapDialog = new JDialog();
         mapDialog.setSize(800, 500);
@@ -205,7 +205,7 @@ public class ShowGraphic
         {
             int plotLon;
             int plotLat;
-            Color[] colors = {Color.RED, Color.BLUE, Color.ORANGE};
+            Color[] colors = {Color.RED, Color.BLUE, Color.DARK_GRAY};
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
