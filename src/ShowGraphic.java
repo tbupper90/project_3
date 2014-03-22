@@ -85,54 +85,82 @@ public class ShowGraphic
      */
     public static void makeSegmentGraph(String[] names, long[] data)
     {
+        // Initialize variables accessible by overridden JPanels
         final int entries = names.length;
         final String[] segNames = names;
         final long[] segData = data;
         
         final int[] segLength = new int[entries];
         final int[] segmentY = new int[entries];
-        int segStep;
-        segStep = 0;
+        int segStep = 0;
         for (int i = entries - 1; i >= 0; i--)
-        {
-            segLength[i] = (int)Math.pow(segData[i] / (double)segData[entries - 1] * 3200000,
-                    1.0/ 5);
+        {                                // Take the current data point...
+            segLength[i] = (int)Math.pow(segData[i] /
+                                         // divided by the smallest data point...
+                                         (double)segData[entries - 1] *
+                                         // multiplied by 14^5 (font size 12)...
+                                         537824,
+                                         // and calculate the fifth root.
+                                         1.0/ 5);
             segmentY[i] = segStep;
             segStep += segLength[i];
         }
-
+        final Color[] colors = {Color.DARK_GRAY, Color.GRAY};
+        
         JDialog segDialog = new JDialog();
-        segDialog.setSize(400, 600);
+        segDialog.setSize(600, 400);
         segDialog.setLocationRelativeTo(null);
         segDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         
-        JPanel segPanel = new JPanel()
+        // Label above the segment graph
+        JPanel labelPanel = new JPanel()
         {
-            Color[] colors = {Color.DARK_GRAY, Color.LIGHT_GRAY};
-            
+            String label = "*Note: Graph segments are scaled by a factor of the fifth root";
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                FontMetrics labelMetric = g.getFontMetrics();
+                g.drawString(label, (getWidth() - labelMetric.stringWidth(label)) / 2, 12);
+            }
+        };
+        labelPanel.setPreferredSize(new Dimension(0, 15));
+        
+        // Main panel that displays the segments
+        JPanel segPanel = new JPanel()
+        {
+            String dataString;
+            int segCenter;
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                FontMetrics segMetric = g.getFontMetrics();
+                //segCenter = segMetric.stringWidth(String.valueOf(segData[0])) + 25;
+                segCenter = getWidth() / 2;
                 for (int i = entries - 1; i >= 0; i--) {
-                    System.out.println(segmentY[i]);
                     g.setColor(colors[i % colors.length]);
-                    g.fillRect(125, segmentY[i], 50, segLength[i]);
-                    g.drawString(String.valueOf(segData[i]),
-                            0, segmentY[i] + segLength[i] / 2);
+                    g.fillRect(segCenter - 25, segmentY[i], 50, segLength[i]);
+                    dataString = String.valueOf(segData[i]);
+                    g.drawString(dataString,
+                            segCenter - 25 - segMetric.stringWidth(dataString),
+                            segmentY[i] + segLength[i] / 2 +
+                            segMetric.getAscent() / 2);                    
                     g.drawString(segNames[i],
-                            250, segmentY[i] + segLength[i] / 2);
+                            segCenter + 25,
+                            segmentY[i] + segLength[i] / 2 +
+                            segMetric.getAscent() / 2);
+                    
                 }
             }
         };
-        segPanel.setPreferredSize(new Dimension(300, segStep));
+        segPanel.setPreferredSize(new Dimension(400, segStep));
         
         
         JScrollPane segScrollPane = new JScrollPane();
         segScrollPane.setViewportView(segPanel);
         
-        segDialog.add(segScrollPane);
+        segDialog.add(labelPanel, BorderLayout.NORTH);
+        segDialog.add(segScrollPane, BorderLayout.CENTER);
         
-        //segDialog.add(segPanel);
         segDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
         
         segDialog.setVisible(true);
