@@ -1,6 +1,6 @@
 import java.util.*;
-
 import java.awt.*;
+
 import javax.swing.*;
 
 /**
@@ -169,8 +169,12 @@ public class ShowGraphic
      * Displays a map with requested information.
      * @param cities The list of cities to display
      */
-	public static void makeWorldMap(LinkedHashMap<String, Region> cities)
+	public static void makeWorldMap(String[] names, String[][] lonLat)
 	{
-        System.out.println("Map!");		
+        // lonLat[?][0] is x, and lonLat[?][1] is y
+        System.out.println("\nInfo:");	    
+	    for (int i = 0; i < names.length; i++) {
+            System.out.println(names[i] + ": " + lonLat[i][0] + " " + lonLat[i][1]);
+        }
 	}
 }

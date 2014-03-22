@@ -216,7 +216,7 @@ public class Prompt
 		String[] options;
 		
 		if (sortMethod == "Area" || sortMethod == "Population" ||
-		    sortMethod == "Latitude" || sortMethod == "Logitude")
+		    sortMethod == "Latitude" || sortMethod == "Longitude")
 		{
 		    options = new String[] {"Print to Screen",
                     "Print to Text File",
@@ -299,9 +299,11 @@ public class Prompt
 		{
 		    String[] names = new String[list.size()];
 		    // Can't iterate through HashMaps by index number, so...
+            System.out.println("\nName keys:");
 		    int i = 0;
 		    for (String key: list.keySet()) {
-		        names[i] = list.get(key).toString();
+		        System.out.println(key);
+		        names[i] = list.get(key).getName();
 		        i++;
 		    }
 		    long[] data = new long[list.size()];
@@ -310,7 +312,17 @@ public class Prompt
 		    {
 		        // Since Lat and Lon only apply to cities,
 		        // there's no need to check dataType
-		        ShowGraphic.makeWorldMap(list);
+		        //newList
+		        
+		        String[][] lonLat = new String[list.size()][2];
+	            System.out.println("\nLonLat keys:");
+		        i = 0;
+		        for (String key: list.keySet()) {
+		            System.out.println(key);
+		            lonLat[i][0] = ((City)list.get(key)).getLon(); // "x"
+                    lonLat[i][1] = ((City)list.get(key)).getLat(); // "y"
+		        }
+		        ShowGraphic.makeWorldMap(names, lonLat);
 		    }
 		    else if (sortMethod == "Population")
 		    {

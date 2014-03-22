@@ -105,11 +105,11 @@ public class City extends Region
 				//checks for empty strings
 				if(o2.getElev().equals("") && (o1.getElev().equals("") == false))
 				{
-					return 1; 
+					return -1;
 				}
 				else if(o1.getElev().equals("") && (o2.getElev().equals("") == false))
 				{
-					return -1;
+					return 1;
 				}
 				
 				else if(o2.getElev().equals("") && o1.getElev().equals(""))
@@ -140,11 +140,11 @@ public class City extends Region
 				//checks for empty strings
 				if(o2.getElev().equals("") && (o1.getElev().equals("") == false))
 				{
-					return 1; 
+					return -1; 
 				}
 				else if(o1.getElev().equals("") && (o2.getElev().equals("") == false))
 				{
-					return -1;
+					return 1;
 				}
 				
 				else if(o2.getElev().equals("") && o1.getElev().equals(""))
@@ -175,11 +175,11 @@ public class City extends Region
 				//checks for empty strings
 				if(o2.getElev().equals("") && (o1.getElev().equals("") == false))
 				{
-					return 1; 
+					return -1; 
 				}
 				else if(o1.getElev().equals("") && (o2.getElev().equals("") == false))
 				{
-					return -1;
+					return 1;
 				}
 				
 				else if(o2.getElev().equals("") && o1.getElev().equals(""))

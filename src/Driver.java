@@ -77,9 +77,11 @@ public class Driver
     		dataType = Prompt.getDataType();
     		System.out.println(dataType);
     		list = sort.sortTypeOfData(continents, dataType);
-    		
+
     		sortMethod = Prompt.getSortMethod(dataType);
     		list = sort.performSort(list, sortMethod);
+
+//          System.out.println(((City)list.entrySet().iterator().next()).getLon());
     		
 //    		System.out.println(list);
     		Prompt.getOutputPreference(list, dataType, sortMethod);
