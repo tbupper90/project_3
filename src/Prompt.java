@@ -299,10 +299,8 @@ public class Prompt
 		{
 		    String[] names = new String[list.size()];
 		    // Can't iterate through HashMaps by index number, so...
-            System.out.println("\nName keys:");
 		    int i = 0;
 		    for (String key: list.keySet()) {
-		        System.out.println(key);
 		        names[i] = list.get(key).getName();
 		        i++;
 		    }
@@ -312,17 +310,18 @@ public class Prompt
 		    {
 		        // Since Lat and Lon only apply to cities,
 		        // there's no need to check dataType
-		        //newList
-		        
 		        String[][] lonLat = new String[list.size()][2];
-	            System.out.println("\nLonLat keys:");
 		        i = 0;
 		        for (String key: list.keySet()) {
-		            System.out.println(key);
 		            lonLat[i][0] = ((City)list.get(key)).getLon(); // "x"
                     lonLat[i][1] = ((City)list.get(key)).getLat(); // "y"
+                    if (lonLat[i][0].equals("")) break;
                     i++;
 		        }
+		        // Remake arrays to exclude entries with no latitudes/longitudes
+		        names = Arrays.copyOf(names, i);
+		        lonLat = Arrays.copyOf(lonLat, i);
+		        
 		        ShowGraphic.makeWorldMap(names, lonLat);
 		    }
 		    else if (sortMethod == "Population")

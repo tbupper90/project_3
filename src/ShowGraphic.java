@@ -1,6 +1,10 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -98,14 +102,13 @@ public class ShowGraphic
             segLength[i] = (int)Math.pow(segData[i] /
                                          // divided by the smallest data point...
                                          (double)segData[entries - 1] *
-                                         // multiplied by 14^5 (font size 12)...
-                                         537824,
-                                         // and calculate the fifth root.
-                                         1.0/ 5);
+                                         // multiplied by 12^4 (font size 12)...
+                                         20736,
+                                         // and calculate the fourth root.
+                                         1.0/ 4);
             segmentY[i] = segStep;
             segStep += segLength[i];
         }
-        final Color[] colors = {Color.DARK_GRAY, Color.GRAY};
         
         JDialog segDialog = new JDialog();
         segDialog.setSize(600, 400);
@@ -115,7 +118,7 @@ public class ShowGraphic
         // Label above the segment graph
         JPanel labelPanel = new JPanel()
         {
-            String label = "*Note: Graph segments are scaled by a factor of the fifth root";
+            String label = "*Note: Graph segments are scaled by a factor of the fourth root";
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -130,6 +133,7 @@ public class ShowGraphic
         {
             String dataString;
             int segCenter;
+            Color[] colors = {Color.DARK_GRAY, Color.GRAY};
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -169,12 +173,72 @@ public class ShowGraphic
      * Displays a map with requested information.
      * @param cities The list of cities to display
      */
-	public static void makeWorldMap(String[] names, String[][] lonLat)
+	public static void makeWorldMap(String[] names, String[][] lonLat) throws IOException
 	{
         // lonLat[?][0] is x, and lonLat[?][1] is y
-        System.out.println("\nInfo:");	    
-	    for (int i = 0; i < names.length; i++) {
-            System.out.println(names[i] + ": " + lonLat[i][0] + " " + lonLat[i][1]);
-        }
+        
+	    // For extended JPanel to read
+	    final String[] mapNames = names;
+	    final int numPlot = names.length;
+	    // Convert coordinate data to something useful
+	    final int[][] mapPlots = new int[numPlot][2];
+	    int temp;
+	    for (int i = 0; i < numPlot; i++) {
+	        temp = (int)Float.parseFloat(lonLat[i][0].substring(1));
+	        if (lonLat[i][0].contains("E")) {
+	            temp = (260 + temp) % 359;
+	        } else if (lonLat[i][0].contains("W")) {
+	            temp = (260 - temp) % 359;
+	        }
+	        mapPlots[i][0] = temp;
+	        mapPlots[i][1] = 15 * i;
+	    }
+	    
+        final BufferedImage img = ImageIO.read(new File("World map.png"));
+
+        JDialog mapDialog = new JDialog();
+        mapDialog.setSize(800, 500);
+        mapDialog.setLocationRelativeTo(null);
+        mapDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        
+        JPanel mapPanel = new JPanel()
+        {
+            int plotLon;
+            int plotLat;
+            Color[] colors = {Color.RED, Color.BLUE, Color.ORANGE};
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                FontMetrics mapMetric = g.getFontMetrics();
+                g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+                for (int i = 0; i < numPlot; i++) {
+                    plotLon = mapPlots[i][0];
+                    plotLat = mapPlots[i][1];
+                    g.setColor(Color.WHITE);
+                    g.fillOval(plotLon * getWidth() / 360 - 4,
+                               plotLat - 4, 9, 9);
+                    g.fillRect(plotLon * getWidth() / 360 + 4,
+                               plotLat - 10,
+                               mapMetric.stringWidth(mapNames[i]) + 1,
+                               12);
+                    g.setColor(colors[i % colors.length]);
+                    g.fillOval(plotLon * getWidth() / 360 - 3,
+                               plotLat - 3, 7, 7);
+                    g.drawString(mapNames[i],
+                                 plotLon * getWidth() / 360 + 5,
+                                 plotLat);                    
+                }
+            }
+        };
+        mapPanel.setPreferredSize(new Dimension(720, 415));
+        
+        JScrollPane mapScrollPane = new JScrollPane();
+        mapScrollPane.setViewportView(mapPanel);
+        
+        mapDialog.add(mapScrollPane);
+        
+        mapDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+        mapDialog.setVisible(true);
+	    
 	}
 }
