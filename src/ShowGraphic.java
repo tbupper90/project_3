@@ -182,30 +182,51 @@ public class ShowGraphic
 	    final int numPlot = names.length;
 	    // Convert coordinate data to something useful
 	    final int[][] mapPlots = new int[numPlot][2];
-	    int temp;
+	    int tempLon;
+        int tempLat;
 	    for (int i = 0; i < numPlot; i++) {
-	        temp = (int)Float.parseFloat(lonLat[i][0].substring(1));
+	        tempLon = (int)Float.parseFloat(lonLat[i][0].substring(1));
 	        if (lonLat[i][0].contains("E")) {
-	            temp = (180 + temp) % 359;
+	            tempLon = (180 + tempLon) % 359;
 	        } else if (lonLat[i][0].contains("W")) {
-	            temp = (180 - temp) % 359;
+	            tempLon = (180 - tempLon) % 359;
 	        }
-	        mapPlots[i][0] = temp;
-	        mapPlots[i][1] = 15 * (i+1);
+            tempLat = (int)Float.parseFloat(lonLat[i][1].substring(1));
+            if (lonLat[i][1].contains("S")) {
+                tempLat = (90 + tempLat) % 179;
+            } else if (lonLat[i][1].contains("N")) {
+                tempLat = (90 - tempLat) % 179;
+            }	        
+	        mapPlots[i][0] = tempLon;
+	        mapPlots[i][1] = tempLat;
 	    }
 	    
         final BufferedImage img = ImageIO.read(new File("Worldmap.jpg"));
 
         JDialog mapDialog = new JDialog();
-        mapDialog.setSize(800, 500);
+        mapDialog.setSize(1200, 615);
         mapDialog.setLocationRelativeTo(null);
         mapDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+        // Citation below the map
+        JPanel imageCitation = new JPanel()
+        {
+            String label = "Image source: http://en.wikipedia.org/wiki/Equirectangular_projection";
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                FontMetrics labelMetric = g.getFontMetrics();
+                g.drawString(label, (getWidth() - labelMetric.stringWidth(label)) / 2, 12);
+            }
+        };
+        imageCitation.setPreferredSize(new Dimension(0, 15));
         
         JPanel mapPanel = new JPanel()
         {
             int plotLon;
             int plotLat;
             Color[] colors = {Color.RED, Color.BLUE, Color.DARK_GRAY};
+            Color semiWhite = new Color(255, 255, 255, 128);
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -214,28 +235,29 @@ public class ShowGraphic
                 for (int i = 0; i < numPlot; i++) {
                     plotLon = mapPlots[i][0];
                     plotLat = mapPlots[i][1];
-                    g.setColor(Color.WHITE);
+                    g.setColor(semiWhite);
                     g.fillOval(plotLon * getWidth() / 360 - 4,
-                               plotLat - 4, 9, 9);
+                               plotLat * getHeight() / 180 - 4, 9, 9);
                     g.fillRect(plotLon * getWidth() / 360 + 4,
-                               plotLat - 10,
+                               plotLat * getHeight() / 180 - 10,
                                mapMetric.stringWidth(mapNames[i]) + 1,
                                12);
                     g.setColor(colors[i % colors.length]);
                     g.fillOval(plotLon * getWidth() / 360 - 3,
-                               plotLat - 3, 7, 7);
+                               plotLat * getHeight() / 180 - 3, 7, 7);
                     g.drawString(mapNames[i],
                                  plotLon * getWidth() / 360 + 5,
-                                 plotLat);                    
+                                 plotLat * getHeight() / 180);                    
                 }
             }
         };
-        mapPanel.setPreferredSize(new Dimension(720, 415));
+        mapPanel.setPreferredSize(new Dimension(1029, 518));
         
         JScrollPane mapScrollPane = new JScrollPane();
         mapScrollPane.setViewportView(mapPanel);
         
-        mapDialog.add(mapScrollPane);
+        mapDialog.add(mapScrollPane, BorderLayout.CENTER);
+        mapDialog.add(imageCitation, BorderLayout.SOUTH);
         
         mapDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
         mapDialog.setVisible(true);
