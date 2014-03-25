@@ -305,10 +305,18 @@ public class Prompt
 		        i++;
 		    }
 		    long[] data = new long[list.size()];
+		    String title = "Title";
 		    
 		    if (sortMethod == "Latitude" || sortMethod == "Longitude")
 		    {
-		        // Since Lat and Lon only apply to cities,
+                title = "Location of ";
+                if (dataType.contains("_citieswithin_")) {
+                	title = title.concat("all cities within " + dataType.substring(14));
+                } else {
+    		    	title = title.concat(dataType.toLowerCase());
+                }
+                
+		    	// Since Lat and Lon only apply to cities,
 		        // there's no need to check dataType
 		        String[][] lonLat = new String[list.size()][2];
 		        i = 0;
@@ -322,31 +330,49 @@ public class Prompt
 		        names = Arrays.copyOf(names, i);
 		        lonLat = Arrays.copyOf(lonLat, i);
 		        
-		        ShowGraphic.makeWorldMap(names, lonLat);
+		        ShowGraphic.makeWorldMap(names, lonLat, title);
 		    }
 		    else if (sortMethod == "Population")
 		    {
-                i = 0;
+                title = "Population of ";
+		    	if (dataType.contains("_countrieswithin_")) {
+                	title = title.concat("all countries within " + dataType.substring(17));
+		    	} else if (dataType.contains("_citieswithin_")) {
+                	title = title.concat("all cities within " + dataType.substring(14));
+                } else {
+    		    	title = title.concat(dataType.toLowerCase());
+                }
+                
+		    	i = 0;
                 for (String key: list.keySet()) {
                     data[i] = Long.parseLong(list.get(key).getPop());
                     i++;
                 }
-		        ShowGraphic.makeBarGraph(names, data);
+		        ShowGraphic.makeBarGraph(names, data, title);
 		    }
 		    else if (sortMethod == "Area")
 		    {
-	            i = 0;
+                title = "Area of ";
+		    	if (dataType.contains("_countrieswithin_")) {
+                	title = title.concat("all countries within " + dataType.substring(17));
+		    	} else if (dataType.contains("_citieswithin_")) {
+                	title = title.concat("all cities within " + dataType.substring(14));
+                } else {
+    		    	title = title.concat(dataType.toLowerCase());
+                }
+
+		    	i = 0;
 	            for (String key: list.keySet()) {
 	                data[i] = Long.parseLong(list.get(key).getArea());
 	                i++;
 	            }
 		        if (dataType.contains("within"))
 		        {
-		            ShowGraphic.makeSegmentGraph(names, data);
+		            ShowGraphic.makeSegmentGraph(names, data, title);
 		        }
 		        else
 		        {
-		            ShowGraphic.makeBarGraph(names, data);
+		            ShowGraphic.makeBarGraph(names, data, title);
 		        }
 		    }
 		}
