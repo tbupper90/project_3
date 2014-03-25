@@ -21,7 +21,7 @@ public class Prompt
 	 */
 	public static String[] getFiles()
 	{
-	    String[] fieldTitles = {"Continents", "Countries", "Cities","Single Binary"};
+	    String[] fieldTitles = {"Continents", "Countries", "Cities", "Places", "Single Binary"};
 	    JTextField[] textFields = new JTextField[fieldTitles.length];
         String[] fileNames = new String[fieldTitles.length];
 
@@ -29,7 +29,7 @@ public class Prompt
         int result;
 	    
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4,1));
+        panel.setLayout(new GridLayout(fieldTitles.length,1));
 
         for (int i = 0; i < fieldTitles.length; i++)
         {

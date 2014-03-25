@@ -46,9 +46,10 @@ public class Driver
 		continentsFile = files[0];
 		countriesFile = files[1];
 		citiesFile = files[2];
-		binaryFile = files[3];
+		placesFile = files[3];
+		binaryFile = files[4];
 		
-		if(files[3].equals("") == false)
+		if(files[4].equals("") == false)
 		{
 			readBinary(binaryFile);
 			System.out.println(continents);
@@ -59,6 +60,7 @@ public class Driver
 			readTextFile(continentsFile);
 			readTextFile(countriesFile);
 			readTextFile(citiesFile);
+			readTextFile(placesFile);
 			
 		}
 		
