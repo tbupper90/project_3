@@ -17,7 +17,7 @@ public class ShowGraphic
 	 * @param list The list with information to display
 	 * @param sortMethod How the information should be sorted
 	 */
-    public static void makeBarGraph(String[] names, long[] data)
+    public static void makeBarGraph(String[] names, long[] data, String title)
 	{
         // ***NOTE: Still needs window title
         
@@ -26,7 +26,7 @@ public class ShowGraphic
         final long[] barData = data;
         final int barWidth = 40;
         
-        JDialog barDialog = new JDialog();
+        JDialog barDialog = new JDialog(null, title, JDialog.DEFAULT_MODALITY_TYPE);
 		barDialog.setSize(600, 400);
 		barDialog.setLocationRelativeTo(null);
 		barDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -77,7 +77,7 @@ public class ShowGraphic
         barDialog.add(minPanel, BorderLayout.SOUTH);
 
         // Set barDialog to modal so program doesn't continue before it's closed
-		barDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+		//barDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
 		
 		barDialog.setVisible(true);
 	}
@@ -87,7 +87,7 @@ public class ShowGraphic
      * @param list The list with information to display
      * @param sortMethod How the information should be sorted
      */
-    public static void makeSegmentGraph(String[] names, long[] data)
+    public static void makeSegmentGraph(String[] names, long[] data, String title)
     {
         // Initialize variables accessible by overridden JPanels
         final int entries = names.length;
@@ -110,7 +110,7 @@ public class ShowGraphic
             segStep += segLength[i];
         }
         
-        JDialog segDialog = new JDialog();
+        JDialog segDialog = new JDialog(null, title, JDialog.DEFAULT_MODALITY_TYPE);
         segDialog.setSize(600, 400);
         segDialog.setLocationRelativeTo(null);
         segDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -165,7 +165,7 @@ public class ShowGraphic
         segDialog.add(labelPanel, BorderLayout.NORTH);
         segDialog.add(segScrollPane, BorderLayout.CENTER);
         
-        segDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+        //segDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
         
         segDialog.setVisible(true);
     }
@@ -173,7 +173,7 @@ public class ShowGraphic
      * Displays a map with requested information.
      * @param cities The list of cities to display
      */
-	public static void makeWorldMap(String[] names, String[][] lonLat) throws IOException
+	public static void makeWorldMap(String[] names, String[][] lonLat, String title) throws IOException
 	{
         // lonLat[?][0] is x, and lonLat[?][1] is y
         
@@ -203,7 +203,7 @@ public class ShowGraphic
 	    
         final BufferedImage img = ImageIO.read(new File("Worldmap.jpg"));
 
-        JDialog mapDialog = new JDialog();
+        JDialog mapDialog = new JDialog(null, title, JDialog.DEFAULT_MODALITY_TYPE);
         mapDialog.setSize(1200, 615);
         mapDialog.setLocationRelativeTo(null);
         mapDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -226,7 +226,7 @@ public class ShowGraphic
             int plotLon;
             int plotLat;
             Color[] colors = {Color.RED, Color.BLUE, Color.DARK_GRAY};
-            Color semiWhite = new Color(255, 255, 255, 128);
+            Color semiWhite = new Color(255, 255, 255, 148);
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -259,7 +259,7 @@ public class ShowGraphic
         mapDialog.add(mapScrollPane, BorderLayout.CENTER);
         mapDialog.add(imageCitation, BorderLayout.SOUTH);
         
-        mapDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+        //mapDialog.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
         mapDialog.setVisible(true);
 	    
 	}
