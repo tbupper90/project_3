@@ -59,7 +59,7 @@ public class Prompt
 //            	fileNames[i] = textFields[i].getText();
                 
             	//If there is a valid binary file, don't check for other files
-                if (new File(fileNames[3]).exists() == true)
+                if (new File(fileNames[4]).exists() == true)
                 {
                 	break;
                 	 
