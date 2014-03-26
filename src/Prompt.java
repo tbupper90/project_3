@@ -27,15 +27,19 @@ public class Prompt
         int result;
 	    
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(fieldTitles.length,1));
-
+        JPanel inputPanel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(inputPanel, BorderLayout.CENTER);
+        inputPanel.setLayout(new GridLayout(fieldTitles.length + 1, 0));
+        
+        
         for (int i = 0; i < fieldTitles.length; i++)
         {
             textFields[i] = new JTextField(10);
-            panel.add(new JLabel(fieldTitles[i] + ":"));
-            panel.add(textFields[i]);            
+            inputPanel.add(new JLabel(fieldTitles[i] + ":"));
+            inputPanel.add(textFields[i]);            
         }
-        
+        panel.add(new JLabel("*Inputting binary file will override other fields"), BorderLayout.SOUTH);
         do {
             fileError = false;
             result = JOptionPane.showConfirmDialog(null, panel, 
