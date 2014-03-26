@@ -428,9 +428,27 @@ public class Prompt
 		
 		if(list.containsKey(region))
 		{
+//			long start = System.nanoTime();
+			
 			String info = list.get(region).getName() + ",\n" + 
 			"Area: " + list.get(region).getArea() + ",\n" +
 	        "Populaion: " +list.get(region).getPop();
+			
+//			String info = ""; 
+//			for(String key : list.keySet())
+//			{
+//				if(region.equalsIgnoreCase(key));
+//				{
+//					 info = list.get(region).getName();
+//				}
+//			
+//			}
+			
+//			
+//			long end = System.nanoTime();
+			
+//			System.out.println(end - start);
+			
 			JOptionPane.showMessageDialog(null, info);
 			return list.get(region).toString().toLowerCase();
 		}
