@@ -96,6 +96,8 @@ public class Driver
 		System.exit(0);
 	}
 	
+	// For the unresolvable cast from object to linkedhashmap
+	@SuppressWarnings("unchecked")
 	private static void readBinary(String file) throws IOException, ClassNotFoundException
 	{
 		FileInputStream fileInputStream = new FileInputStream(file); 

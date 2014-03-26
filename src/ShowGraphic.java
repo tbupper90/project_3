@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -46,7 +45,8 @@ public class ShowGraphic
         // Middle panel that displays bars
         JPanel barsPanel = new JPanel()
         {
-            int barLength[] = new int[entries];
+			private static final long serialVersionUID = -593564669223958876L;
+			int barLength[] = new int[entries];
             Color[] colors = {Color.DARK_GRAY, Color.LIGHT_GRAY};
             @Override
             public void paintComponent(Graphics g) {
@@ -118,7 +118,8 @@ public class ShowGraphic
         // Label above the segment graph
         JPanel labelPanel = new JPanel()
         {
-            String label = "*Note: Graph segments are scaled by a factor of the fourth root";
+			private static final long serialVersionUID = 8780747432464208L;
+			String label = "*Note: Graph segments are scaled by a factor of the fourth root";
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -131,7 +132,8 @@ public class ShowGraphic
         // Main panel that displays the segments
         JPanel segPanel = new JPanel()
         {
-            String dataString;
+			private static final long serialVersionUID = 4555257909438952550L;
+			String dataString;
             int segCenter;
             Color[] colors = {Color.DARK_GRAY, Color.GRAY};
             @Override
@@ -211,7 +213,8 @@ public class ShowGraphic
         // Citation below the map
         JPanel imageCitation = new JPanel()
         {
-            String label = "Image source: http://en.wikipedia.org/wiki/Equirectangular_projection";
+        	private static final long serialVersionUID = 8303017413811758055L;
+			String label = "Image source: http://en.wikipedia.org/wiki/Equirectangular_projection";
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -223,7 +226,8 @@ public class ShowGraphic
         
         JPanel mapPanel = new JPanel()
         {
-            int plotLon;
+			private static final long serialVersionUID = 4238985815794046739L;
+			int plotLon;
             int plotLat;
             Color[] colors = {Color.RED, Color.BLUE, Color.DARK_GRAY};
             Color semiWhite = new Color(255, 255, 255, 148);

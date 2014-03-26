@@ -5,8 +5,6 @@ import javax.swing.*;
 
 import java.io.*;
 
-import junit.framework.Test;
-
 
 /**
  * THis class will get the files as well as user input
