@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -16,7 +18,7 @@ public class ShowGraphic
 	 * @param list The list with information to display
 	 * @param sortMethod How the information should be sorted
 	 */
-    public static void makeBarGraph(String[] names, long[] data, String title)
+    public static void makeBarGraph(final String[] names,final long[] data, String title)
 	{
         // ***NOTE: Still needs window title
         
@@ -24,6 +26,7 @@ public class ShowGraphic
         final int entries = names.length;
         final long[] barData = data;
         final int barWidth = 40;
+        
         
         JDialog barDialog = new JDialog(null, title, JDialog.DEFAULT_MODALITY_TYPE);
 		barDialog.setSize(600, 400);
@@ -43,15 +46,17 @@ public class ShowGraphic
                 ", " + data[names.length-1], JLabel.CENTER));
         
         // Middle panel that displays bars
-        JPanel barsPanel = new JPanel()
+        final JPanel barsPanel = new JPanel()
         {
 			private static final long serialVersionUID = -593564669223958876L;
 			int barLength[] = new int[entries];
             Color[] colors = {Color.DARK_GRAY, Color.LIGHT_GRAY};
             @Override
-            public void paintComponent(Graphics g) {
+            public void paintComponent(final Graphics g) {
                 super.paintComponent(g);
                 for (int i = 0; i < entries; i++) {
+                	final int j = i;
+                	final String name = names[i];
                     barLength[i] = (int)(barData[i] / (double)barData[0]
                                          * getHeight() * 0.9);
                     g.setColor(colors[i % colors.length]);
@@ -59,12 +64,42 @@ public class ShowGraphic
                             getHeight() - barLength[i] - 5, // y coordinate
                             barWidth,                       // width
                             barLength[i]);                  // height
+                    final MouseMotionListener ml = new MouseMotionListener(){
+                        @Override
+                        public void mouseMoved(MouseEvent e) {
+                        	
+                        	Rectangle rect = new Rectangle();
+                            rect.setBounds(j * barWidth, getHeight() - barLength[j] - 5, barWidth, barLength[j]);
+                            if(rect.contains(e.getPoint()))  
+                                {setToolTipText(name + ", data: " + data[j]);
+                                removeMouseMotionListener(this);
+                                }
+                            else
+                            	removeMouseMotionListener(this);  
+                              
+                            
+							
+                        }
+
+        				@Override
+        				public void mouseDragged(MouseEvent f) {
+        					removeMouseMotionListener(this);
+        					
+        				}};
+        			this.addMouseMotionListener(ml);
+                    
+                   
                 }
                 // Separator bar
                 g.setColor(Color.BLACK);
                 g.fillRect(0, getHeight() - 5, getWidth(), 5);
-            }
+                
+                 
+                  
+            }     
+            
         };
+        
 		barsPanel.setPreferredSize(new Dimension(barWidth * entries, 300));
 		
 		// Put panel with the bars onto a JScrollPane
